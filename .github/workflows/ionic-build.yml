@@ -5,6 +5,18 @@ on:
     branches: [ "main" ]
     
 jobs:
+  install_cloud_cli_and_trigger_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: install cloud cli
+        run: curl -fsSL https://ionic.io/get-ionic-cloud-cli | bash
+
+      - name: test cloud cli
+        run: which ionic-cloud
+
+      - name: invoke build
+        run: ionic-cloud build web --app-id=cfe976ed --commit=$GITHUB_SHA --token=${{ secrets.IONIC_TOKEN }}
+
   trigger_web_build: 
     name: trigger appflow web build
     runs-on: ubuntu-latest
