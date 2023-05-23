@@ -19,17 +19,24 @@ jobs:
 
       - name: invoke build
         id: invoke_build
-        run: ionic-cloud build web --app-id=cfe976ed --commit=$GITHUB_SHA --token=${{ secrets.IONIC_TOKEN }} --zip-name=build.zip --json
+        run: >-
+          echo "::set-output name=BUILD_ID::$(
+            ionic-cloud build web --app-id=cfe976ed --commit=$GITHUB_SHA --token=${{ secrets.IONIC_TOKEN }} --zip-name=build.zip --json | jq .buildId
+          )"
         
+      - name: get build id
+        id: build_id
+        run: echo "${{ steps.invoke_build.outputs.BUILD_ID }}"
+      
       - name: create release
         id: create_release
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # provided by action, you don't need to create this yourself
         with:
-          tag_name: $GITHUB_SHA
-          name: $GITHUB_SHA
-          body: $GITHUB_SHA
+          tag_name: ${{ steps.invoke_build.outputs.BUILD_ID }}
+          name: ${{ steps.invoke_build.outputs.BUILD_ID }}
+          body: ${{ steps.invoke_build.outputs.BUILD_ID }}
           draft: false
           prerelease: false
           files: build.zip
