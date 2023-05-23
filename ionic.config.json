@@ -1,0 +1,7 @@
+{
+  "name": "github-actions-test",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
