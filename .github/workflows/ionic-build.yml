@@ -16,7 +16,7 @@ jobs:
 
       - name: invoke build
         id: invoke_build
-        run: ionic-cloud build web --app-id=cfe976ed --commit=$GITHUB_SHA --token=${{ secrets.IONIC_TOKEN }} --zip-file=build.zip --json
+        run: ionic-cloud build web --app-id=cfe976ed --commit=$GITHUB_SHA --token=${{ secrets.IONIC_TOKEN }} --zip-name=build.zip --json
         
       - name: create release
         id: create_release
