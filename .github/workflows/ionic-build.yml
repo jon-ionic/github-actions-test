@@ -13,20 +13,13 @@ jobs:
     steps:
       - name: install cloud cli
         run: curl -fsSL https://ionic.io/get-ionic-cloud-cli | bash
-
-      - name: test cloud cli
-        run: which ionic-cloud
-
+        
       - name: invoke build
         id: invoke_build
         run: >-
           echo "::set-output name=BUILD_ID::$(
             ionic-cloud build web --app-id=cfe976ed --commit=$GITHUB_SHA --token=${{ secrets.IONIC_TOKEN }} --zip-name=build.zip --json | jq .buildId
           )"
-        
-      - name: get build id
-        id: build_id
-        run: echo "${{ steps.invoke_build.outputs.BUILD_ID }}"
       
       - name: create release
         id: create_release
@@ -40,4 +33,3 @@ jobs:
           draft: false
           prerelease: false
           files: build.zip
-          
