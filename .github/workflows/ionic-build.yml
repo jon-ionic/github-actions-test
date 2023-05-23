@@ -1,0 +1,18 @@
+name: appflow build
+
+on:
+  push:
+    branches: [ "main" ]
+    
+jobs:
+  trigger_web_build: 
+    name: trigger appflow web build
+    runs-on: ubuntu-latest
+    steps:
+      - name: trigger web build
+        uses: ionic-team/appflow-build@v1
+        with:
+          token: ${{ secrets.IONIC_TOKEN }}
+          app-id: cfe976ed
+          platform: web
+          
