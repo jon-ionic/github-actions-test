@@ -3,7 +3,10 @@ name: appflow build
 on:
   push:
     branches: [ "main" ]
-    
+
+permissions:
+  contents: write
+
 jobs:
   install_cloud_cli_and_trigger_build:
     runs-on: ubuntu-latest
